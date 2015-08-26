@@ -48,3 +48,7 @@ To run tests:
 ```
 $ docker-compose run subscriber npm test
 ```
+
+# Deployment
+
+Check the README in the ansible/ directory

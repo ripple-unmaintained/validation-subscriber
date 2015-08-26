@@ -1,0 +1,16 @@
+- name: Stand up subscriber container
+  docker:
+    name: validationsubscriber_subscriber
+    image: "quay.io/ripple/validators.ripple.com:{{deploy_environment}}"
+    registry: "https://quay.io/v1/"
+    email: ops@ripple.com
+    username: "{{webapp_docker_username}}"
+    password: "{{webapp_docker_password}}"
+    state: reloaded
+    pull: always
+    restart_policy: always
+    env:
+      PEER_API_URL: "{{ lookup('env','PEER_API_URL') }}"
+      VALIDATOR_REGISTRY_API_URL: "{{webapp_validations_api_url}}"
+      VALIDATOR_REGISTRY_API_AUTH_USER: "{{webapp_submit_username}}"
+      VALIDATOR_REGISTRY_API_AUTH_PASS: "{{webapp_submit_password}}"
