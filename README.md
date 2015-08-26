@@ -12,3 +12,39 @@ The following variables must be set:
 - VALIDATOR_REGISTRY_API_URL
 - VALIDATOR_REGISTRY_API_AUTH_USER
 - VALIDATOR_REGISTRY_API_AUTH_PASS
+
+# Local Development
+
+To run the validation subscriber locally, you'll need:
+
+* Docker (``apt-get install docker``)
+* Docker-compose (``pip install docker-compose``)
+
+To build the environment:
+
+```
+$ docker-compose build
+```
+
+To bring up the environment (be sure to have the environment variables set):
+
+```
+$ docker-compose up
+```
+
+You'll now have validation-subscriber running in docker.
+
+Any modifications to the code will require a restart of the subscriber container.
+Usually you can ^C and re-run ``docker-compose up subscriber``
+
+If you need a shell:
+
+```
+$ docker-compose run subscriber /bin/bash
+```
+
+To run tests:
+
+```
+$ docker-compose run subscriber npm test
+```

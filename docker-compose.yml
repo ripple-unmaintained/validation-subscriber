@@ -1,0 +1,9 @@
+subscriber:
+  build: .
+  volumes:
+    - .:/usr/src/app
+  environment:
+    - PEER_API_URL
+    - VALIDATOR_REGISTRY_API_URL
+    - VALIDATOR_REGISTRY_API_AUTH_USER
+    - VALIDATOR_REGISTRY_API_AUTH_PASS
