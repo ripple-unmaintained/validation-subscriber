@@ -10,7 +10,9 @@
   "scripts": {
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile",
-    "test": "mocha --compilers js:babel/register test/ --timeout 10000"
+    "prestart": "npm run compile",
+    "start": "node index.js",
+    "test": "mocha --compilers js:babel/register test/"
   },
   "bin": {
     "validation-subscriber": "./index.js"
