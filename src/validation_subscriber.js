@@ -101,7 +101,9 @@ export default class ValidationSubscriber {
   }
 
   async start() {
-    try {      
+    let self = this
+
+    try {
 
       // Subscribe to rippleds
       const rippleds = await this.getRippleds()
@@ -111,8 +113,8 @@ export default class ValidationSubscriber {
       // Subscribe to new rippled connections hourly
       const job = new CronJob('0 0 * * * *', async function() {
         try {
-          const rippleds = await this.getRippleds()
-          await this.subscribeToRippleds(rippleds)
+          const rippleds = await self.getRippleds()
+          await self.subscribeToRippleds(rippleds)
           console.log('Subscribed to rippled validation streams')
         } catch (error) {
           console.error('Error with validation subscription task', error)
