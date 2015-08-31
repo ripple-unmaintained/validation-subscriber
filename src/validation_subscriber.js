@@ -69,18 +69,24 @@ export default class ValidationSubscriber {
 
       ws.on('error', function(error){
         console.error(this.url, error)
-        self.connections[this.url].ws.close()
-        delete self.connections[this.url]
+        if (this.url && self.connections[this.url]) {
+          if (self.connections[this.url].ws) {
+            self.connections[this.url].ws.close()
+          }
+          delete self.connections[this.url]
+        }
       })
 
       ws.on('open', function () {
-        self.connections[this.url].ws.send(JSON.stringify({
-          "id": 1,
-          "command": "subscribe",
-          "streams": [
-            "validations"
-          ]
-        }))
+        if (this.url && self.connections[this.url] && self.connections[this.url].ws) {
+          self.connections[this.url].ws.send(JSON.stringify({
+            "id": 1,
+            "command": "subscribe",
+            "streams": [
+              "validations"
+            ]
+          }))
+        }
       })
 
       ws.on('message', function(dataString, flags) {
@@ -95,7 +101,9 @@ export default class ValidationSubscriber {
   }
 
   async start() {
-    try {      
+    let self = this
+
+    try {
 
       // Subscribe to rippleds
       const rippleds = await this.getRippleds()
@@ -105,8 +113,8 @@ export default class ValidationSubscriber {
       // Subscribe to new rippled connections hourly
       const job = new CronJob('0 0 * * * *', async function() {
         try {
-          const rippleds = await this.getRippleds()
-          await this.subscribeToRippleds(rippleds)
+          const rippleds = await self.getRippleds()
+          await self.subscribeToRippleds(rippleds)
           console.log('Subscribed to rippled validation streams')
         } catch (error) {
           console.error('Error with validation subscription task', error)
